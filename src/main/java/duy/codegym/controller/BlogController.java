@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @PropertySource("classpath:upload_file.properties")
@@ -39,7 +40,6 @@ public class BlogController {
     }
     @GetMapping("/**")
     public ModelAndView showList(@PageableDefault(value = 3)Pageable pageable){
-
         ModelAndView model = new ModelAndView("/blog/list");
         model.addObject("blogList", blogService.findAllOrderByCategory(pageable));
         return model;
@@ -65,10 +65,16 @@ public class BlogController {
 
 
     @GetMapping("/delete")
-    public ModelAndView showDeleteForm(@RequestParam("id") Blog blog) {
-        ModelAndView model = new ModelAndView("/blog/delete");
-        model.addObject("blog", blog);
-        return model;
+    public ModelAndView showDeleteForm(@RequestParam("id") Long id) {
+        Optional<Blog> blog = blogService.findById(id);
+        if (blog.isPresent()) {
+            ModelAndView model = new ModelAndView("/blog/delete");
+            model.addObject("blog", blog.get());
+            return model;
+        } else {
+            return new ModelAndView("/error-404");
+        }
+
     }
 
     @PostMapping("/delete")
@@ -98,28 +104,28 @@ public class BlogController {
         return model;
     }
 
-    @GetMapping("/sort")
-    public ModelAndView sortByCategory(@PageableDefault(value = 3) Pageable pageable) {
-        ModelAndView model = new ModelAndView("/blog/list");
-        long count = 1;
-        for (Category c: categories()
-             ) {
-            if (c.getId() > count) {
-                count = c.getId();
-            }
-        }
-        List<Blog> blogList = new ArrayList<>();
-        for (long i = 1; i <= count; i++) {
-           List<Blog> blogs = (List<Blog>) blogService.findAllByCategory(categoryService.findById(i).get());
-           if (blogs!= null) {
-               for (int j = 0; j < blogs.size(); j++) {
-                   blogList.add(blogs.get(j));
-               }
-           }
-        }
-        Page<Blog> blogPage = (Page<Blog>) blogList;
-        model.addObject("blogList", blogList);
-        return model;
-    }
+//    @GetMapping("/sort")
+//    public ModelAndView sortByCategory(@PageableDefault(value = 3) Pageable pageable) {
+//        ModelAndView model = new ModelAndView("/blog/list");
+//        long count = 1;
+//        for (Category c: categories()
+//             ) {
+//            if (c.getId() > count) {
+//                count = c.getId();
+//            }
+//        }
+//        List<Blog> blogList = new ArrayList<>();
+//        for (long i = 1; i <= count; i++) {
+//           List<Blog> blogs = (List<Blog>) blogService.findAllByCategory(categoryService.findById(i).get());
+//           if (blogs!= null) {
+//               for (int j = 0; j < blogs.size(); j++) {
+//                   blogList.add(blogs.get(j));
+//               }
+//           }
+//        }
+//        Page<Blog> blogPage = (Page<Blog>) blogList;
+//        model.addObject("blogList", blogList);
+//        return model;
+//    }
 
 }
