@@ -14,11 +14,11 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Title must be between 1 and 50 characters")
-    @Length(min = 1, max = 50)
+    @NotEmpty(message = "Title must be between 5 and 50 characters")
+    @Length(min = 5, max = 50)
     private String title;
 
-    @NotEmpty(message = "Content  must be betweent 1 and 2000")
+    @NotEmpty(message = "Content  must be between 2 and 2000")
     @Length(min = 2, max = 2000)
     private String content;
     @ManyToOne
