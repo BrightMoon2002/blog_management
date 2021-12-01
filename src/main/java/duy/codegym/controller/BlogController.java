@@ -54,32 +54,43 @@ public class BlogController {
 
     @PostMapping("/create")
     public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Optional<Blog> blog, BindingResult bindingResult){
-        if (blog.isPresent()){
-            ModelAndView model = new ModelAndView("/blog/create");
-            // cách dùng validate nếu dùng thì không cần anotation @Valid hoặc nếu dùng custom
-            // valation thì cũng không cần dùng dòng dưới và cả anotation @Valid
+        try {
+            if (blog.isPresent()){
+                ModelAndView model = new ModelAndView("/blog/create");
+                // cách dùng validate nếu dùng thì không cần anotation @Valid hoặc nếu dùng custom
+                // valation thì cũng không cần dùng dòng dưới và cả anotation @Valid
 //            new Blog().validate(blog.get(), bindingResult);
-            if (!bindingResult.hasFieldErrors()) {
-                blog.get().setDatePost(LocalDate.now());
-                blogService.save(blog.get());
-                model.addObject("blog", new Blog());
-                model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
+                if (!bindingResult.hasFieldErrors()) {
+                    blog.get().setDatePost(LocalDate.now());
+                    blogService.save(blog.get());
+                    model.addObject("blog", new Blog());
+                    model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
+                }
+                return model;
+            } else {
+                return new ModelAndView("/error-404");
             }
-            return model;
-        } else {
+        } catch (Exception e) {
+            System.out.println("error" + e.getMessage());
             return new ModelAndView("/error-404");
         }
+
         }
 
 
     @GetMapping("/delete")
     public ModelAndView showDeleteForm(@RequestParam("id") Long id) {
-        Optional<Blog> blog = blogService.findById(id);
-        if (blog.isPresent()) {
-            ModelAndView model = new ModelAndView("/blog/delete");
-            model.addObject("blog", blog.get());
-            return model;
-        } else {
+        try {
+            Optional<Blog> blog = blogService.findById(id);
+            if (blog.isPresent()) {
+                ModelAndView model = new ModelAndView("/blog/delete");
+                model.addObject("blog", blog.get());
+                return model;
+            } else {
+                return new ModelAndView("/error-404");
+            }
+        } catch (Exception ex) {
+            System.out.println("error" + ex.getMessage());
             return new ModelAndView("/error-404");
         }
 
@@ -101,24 +112,36 @@ public class BlogController {
 
     @GetMapping("/edit")
     public ModelAndView showEditForm(@RequestParam("id") Optional<Blog> blog) {
-        if (blog.isPresent()){
-            ModelAndView model = new ModelAndView("/blog/edit");
-            model.addObject("blog", blog);
-            return model;
-        } else {
+        try {
+            if (blog.isPresent()){
+                ModelAndView model = new ModelAndView("/blog/edit");
+                model.addObject("blog", blog);
+                return model;
+            } else {
+                return new ModelAndView("/error-404");
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e.getMessage());
             return new ModelAndView("/error-404");
         }
+
     }
 
     @PostMapping("/edit")
     public ModelAndView editBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult) {
-        ModelAndView model = new ModelAndView("/blog/edit");
-        if (!bindingResult.hasFieldErrors()) {
-            model.addObject("blog", blog);
-            model.addObject("message", "Edit blog successful, go to homepage to see your blog!");
-            blogService.save(blog);
+        try {
+            ModelAndView model = new ModelAndView("/blog/edit");
+            if (!bindingResult.hasFieldErrors()) {
+                model.addObject("blog", blog);
+                model.addObject("message", "Edit blog successful, go to homepage to see your blog!");
+                blogService.save(blog);
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println("error" + e.getMessage());
+            return new ModelAndView("/error-404");
         }
-        return model;
+
     }
 
 //    @GetMapping("/sort")
