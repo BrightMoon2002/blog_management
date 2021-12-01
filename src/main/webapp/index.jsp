@@ -13,5 +13,8 @@
   </head>
   <body>
   HomePage
+  <p>
+    <a href="/blogs">BLogs</a>
+  </p>
   </body>
 </html>
