@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -39,6 +41,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 @Configuration
 @EnableWebMvc
@@ -166,5 +169,13 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         //hỏi cô giáo về việc cho addconverter với thuộc tính khác
         // thì formatter nó không nhận phải có cách nào dùng được cả 2 không
 //        registry.addConverter(new TrackConverter("-"));
+    }
+
+    // tạo bean cho validation
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("ValidationMessages");
+        return messageSource;
     }
 }

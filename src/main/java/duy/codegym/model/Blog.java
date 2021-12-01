@@ -2,8 +2,11 @@ package duy.codegym.model;
 
 import net.bytebuddy.implementation.bind.annotation.Empty;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
@@ -14,11 +17,11 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Title must be between 5 and 50 characters")
+    @NotEmpty(message = "error.name.blank")
     @Length(min = 5, max = 50)
     private String title;
 
-    @NotEmpty(message = "Content  must be between 2 and 2000")
+    @NotEmpty(message = "{error.name.blank}")
     @Length(min = 2, max = 2000)
     private String content;
     @ManyToOne
@@ -92,4 +95,19 @@ public class Blog {
     public void setDatePost(LocalDate datePost) {
         this.datePost = datePost;
     }
+// nếu dùng custom validation thì không dùng cái dưới và không phải implement interface validator nhưng phải cài bean trong appConfig
+//    @Override
+//    public boolean supports(Class<?> clazz) {
+//        return false;
+//    }
+//
+//    @Override
+//    public void validate(Object target, Errors errors) {
+//        Blog blog = (Blog) target;
+//        String tittle = blog.getTitle();
+//
+//        if (tittle == null || "".equals(tittle)) {
+//            errors.rejectValue("title", "error.name.blank", "cant be left blank");
+//        }
+//    }
 }

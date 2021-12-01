@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,6 +56,9 @@ public class BlogController {
     public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Optional<Blog> blog, BindingResult bindingResult){
         if (blog.isPresent()){
             ModelAndView model = new ModelAndView("/blog/create");
+            // cách dùng validate nếu dùng thì không cần anotation @Valid hoặc nếu dùng custom
+            // valation thì cũng không cần dùng dòng dưới và cả anotation @Valid
+//            new Blog().validate(blog.get(), bindingResult);
             if (!bindingResult.hasFieldErrors()) {
                 blog.get().setDatePost(LocalDate.now());
                 blogService.save(blog.get());
