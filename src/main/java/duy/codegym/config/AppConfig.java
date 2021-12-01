@@ -1,5 +1,6 @@
 package duy.codegym.config;
 
+import duy.codegym.aspect.BlogAspect;
 import duy.codegym.formatter.BlogFormatter;
 import duy.codegym.service.blog.BlogService;
 import duy.codegym.service.blog.IBlogService;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -50,6 +48,7 @@ import java.util.ResourceBundle;
 @ComponentScan("duy.codegym")
 @PropertySource("classpath:upload_file.properties")
 @EnableJpaRepositories("duy.codegym.repo")
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Autowired
     private Environment env;
@@ -86,6 +85,12 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         return templateResolver;
     }
+
+    @Bean
+    public BlogAspect blogAspect() {
+        return new BlogAspect();
+    }
+
 //    @Bean
 //    public IService trackService(){
 //        return new IMediaPlayerService();
