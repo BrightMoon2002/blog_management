@@ -104,7 +104,7 @@ public class BlogController {
     public ModelAndView showEditForm(@RequestParam("id") Optional<Blog> blog) {
             if (blog.isPresent()){
                 ModelAndView model = new ModelAndView("/blog/edit");
-                model.addObject("blog", blog);
+                model.addObject("blog", blog.get());
                 return model;
             } else {
                 return new ModelAndView("/error-404");
