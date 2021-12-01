@@ -16,6 +16,7 @@
     <input type="hidden" th:field="*{datePost}">
     <label for="tittle">Tittle</label>
     <input id="tittle" type="text" th:field="*{title}" th:value="${blog.title}"><br>
+    <span th:if="${#fields.hasErrors('title')}" th:errors = "*{title}"></span><br>
     <select name="category">
       <option th:each="c : ${categories}" th:value="${c.id}"
       th:text="${c.name}"
@@ -24,6 +25,7 @@
     </select><br>
     <label for="content">Content</label>
     <textarea type="text" th:field="*{content}" th:value="${blog.content}" id="content" cols="100" rows="10"></textarea>
+    <span th:if="${#fields.hasErrors('content')}" th:errors = "*{content}"></span><br>
   </fieldset>
   <button type="submit">Save</button>
   <button type="reset">Clear</button>

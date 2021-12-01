@@ -24,7 +24,7 @@ duy/codegym/model/Blog.java
  duy.codegym.model.Blog
 duy/codegym/formatter/BlogFormatter.java
  duy.codegym.formatter.BlogFormatter
-duy/codegym/controller/BlogController.java
- duy.codegym.controller.BlogController
 duy/codegym/service/blog/BlogService.java
  duy.codegym.service.blog.BlogService
+duy/codegym/controller/BlogController.java
+ duy.codegym.controller.BlogController

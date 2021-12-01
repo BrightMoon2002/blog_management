@@ -54,16 +54,13 @@ public class BlogController {
     @PostMapping("/create")
     public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult){
         ModelAndView model = new ModelAndView("/blog/create");
-        if (bindingResult.hasFieldErrors()) {
-            blog.setDatePost(LocalDate.now());
-            return model;
-        } else {
+        if (!bindingResult.hasFieldErrors()) {
             blog.setDatePost(LocalDate.now());
             blogService.save(blog);
             model.addObject("blog", new Blog());
             model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
-            return model;
         }
+        return model;
         }
 
 
@@ -91,11 +88,13 @@ public class BlogController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView editBlog(@ModelAttribute("blog") Blog blog) {
+    public ModelAndView editBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult) {
         ModelAndView model = new ModelAndView("/blog/edit");
-        model.addObject("blog", blog);
-        model.addObject("message", "Edit blog successful, go to homepage to see your blog!");
-        blogService.save(blog);
+        if (!bindingResult.hasFieldErrors()) {
+            model.addObject("blog", blog);
+            model.addObject("message", "Edit blog successful, go to homepage to see your blog!");
+            blogService.save(blog);
+        }
         return model;
     }
 
