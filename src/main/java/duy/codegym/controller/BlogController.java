@@ -52,15 +52,19 @@ public class BlogController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult){
-        ModelAndView model = new ModelAndView("/blog/create");
-        if (!bindingResult.hasFieldErrors()) {
-            blog.setDatePost(LocalDate.now());
-            blogService.save(blog);
-            model.addObject("blog", new Blog());
-            model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
+    public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Optional<Blog> blog, BindingResult bindingResult){
+        if (blog.isPresent()){
+            ModelAndView model = new ModelAndView("/blog/create");
+            if (!bindingResult.hasFieldErrors()) {
+                blog.get().setDatePost(LocalDate.now());
+                blogService.save(blog.get());
+                model.addObject("blog", new Blog());
+                model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
+            }
+            return model;
+        } else {
+            return new ModelAndView("/error-404");
         }
-        return model;
         }
 
 
@@ -78,19 +82,28 @@ public class BlogController {
     }
 
     @PostMapping("/delete")
-    public ModelAndView deleteBlog(@ModelAttribute("blog") Blog blog) {
-        ModelAndView model = new ModelAndView("/blog/delete");
-        blogService.remove(blog);
-        model.addObject("blog", new Blog());
-        model.addObject("message", "delete this blog successful!");
-        return model;
+    public ModelAndView deleteBlog(@ModelAttribute("blog") Optional<Blog> blog) {
+        if (blog.isPresent()) {
+            ModelAndView model = new ModelAndView("/blog/delete");
+            blogService.remove(blog.get());
+            model.addObject("blog", new Blog());
+            model.addObject("message", "delete this blog successful!");
+            return model;
+        } else {
+            return new ModelAndView("/error-404");
+        }
+
     }
 
     @GetMapping("/edit")
-    public ModelAndView showEditForm(@RequestParam("id") Blog blog) {
-        ModelAndView model = new ModelAndView("/blog/edit");
-        model.addObject("blog", blog);
-        return model;
+    public ModelAndView showEditForm(@RequestParam("id") Optional<Blog> blog) {
+        if (blog.isPresent()){
+            ModelAndView model = new ModelAndView("/blog/edit");
+            model.addObject("blog", blog);
+            return model;
+        } else {
+            return new ModelAndView("/error-404");
+        }
     }
 
     @PostMapping("/edit")

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Optional;
+
 @Component
-public class BlogFormatter implements Formatter<Blog> {
+public class BlogFormatter implements Formatter<Optional<Blog>> {
     private IBlogService blogService;
 
     public BlogFormatter(IBlogService blogService) {
@@ -17,12 +19,12 @@ public class BlogFormatter implements Formatter<Blog> {
 
 
     @Override
-    public Blog parse(String id, Locale locale) throws ParseException {
-        return blogService.findById(Long.parseLong(id)).orElse(null);
+    public Optional<Blog> parse(String id, Locale locale) throws ParseException {
+        return blogService.findById(Long.parseLong(id));
     }
 
     @Override
-    public String print(Blog object, Locale locale) {
+    public String print(Optional<Blog> object, Locale locale) {
         return "";
     }
 }
