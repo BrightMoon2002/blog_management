@@ -54,7 +54,6 @@ public class BlogController {
 
     @PostMapping("/create")
     public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Optional<Blog> blog, BindingResult bindingResult){
-        try {
             if (blog.isPresent()){
                 ModelAndView model = new ModelAndView("/blog/create");
                 // cách dùng validate nếu dùng thì không cần anotation @Valid hoặc nếu dùng custom
@@ -70,17 +69,12 @@ public class BlogController {
             } else {
                 return new ModelAndView("/error-404");
             }
-        } catch (Exception e) {
-            System.out.println("error" + e.getMessage());
-            return new ModelAndView("/error-404");
-        }
 
         }
 
 
     @GetMapping("/delete")
     public ModelAndView showDeleteForm(@RequestParam("id") Long id) {
-        try {
             Optional<Blog> blog = blogService.findById(id);
             if (blog.isPresent()) {
                 ModelAndView model = new ModelAndView("/blog/delete");
@@ -89,10 +83,6 @@ public class BlogController {
             } else {
                 return new ModelAndView("/error-404");
             }
-        } catch (Exception ex) {
-            System.out.println("error" + ex.getMessage());
-            return new ModelAndView("/error-404");
-        }
 
     }
 
@@ -112,7 +102,6 @@ public class BlogController {
 
     @GetMapping("/edit")
     public ModelAndView showEditForm(@RequestParam("id") Optional<Blog> blog) {
-        try {
             if (blog.isPresent()){
                 ModelAndView model = new ModelAndView("/blog/edit");
                 model.addObject("blog", blog);
@@ -120,16 +109,11 @@ public class BlogController {
             } else {
                 return new ModelAndView("/error-404");
             }
-        } catch (Exception e) {
-            System.out.println("error" + e.getMessage());
-            return new ModelAndView("/error-404");
-        }
 
     }
 
     @PostMapping("/edit")
     public ModelAndView editBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult) {
-        try {
             ModelAndView model = new ModelAndView("/blog/edit");
             if (!bindingResult.hasFieldErrors()) {
                 model.addObject("blog", blog);
@@ -137,10 +121,6 @@ public class BlogController {
                 blogService.save(blog);
             }
             return model;
-        } catch (Exception e) {
-            System.out.println("error" + e.getMessage());
-            return new ModelAndView("/error-404");
-        }
 
     }
 

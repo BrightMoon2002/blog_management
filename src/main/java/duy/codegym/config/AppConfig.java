@@ -2,6 +2,7 @@ package duy.codegym.config;
 
 import duy.codegym.aspect.BlogAspect;
 import duy.codegym.formatter.BlogFormatter;
+import duy.codegym.handler.BlogExceptionHandler;
 import duy.codegym.service.blog.BlogService;
 import duy.codegym.service.blog.IBlogService;
 
@@ -85,10 +86,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         return templateResolver;
     }
-
+// cấu hình aspect
     @Bean
     public BlogAspect blogAspect() {
         return new BlogAspect();
+    }
+
+    //cấu hình handler
+    @Bean
+    public BlogExceptionHandler blogExceptionHandler() {
+        return new BlogExceptionHandler();
     }
 
 //    @Bean
