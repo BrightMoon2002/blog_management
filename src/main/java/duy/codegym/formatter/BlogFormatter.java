@@ -18,11 +18,11 @@ public class BlogFormatter implements Formatter<Blog> {
 
     @Override
     public Blog parse(String id, Locale locale) throws ParseException {
-        return blogService.findById(Long.parseLong(id)).get();
+        return blogService.findById(Long.parseLong(id)).orElse(null);
     }
 
     @Override
     public String print(Blog object, Locale locale) {
-        return null;
+        return "";
     }
 }

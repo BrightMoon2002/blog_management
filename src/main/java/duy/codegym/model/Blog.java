@@ -1,6 +1,10 @@
 package duy.codegym.model;
 
+import net.bytebuddy.implementation.bind.annotation.Empty;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Entity
@@ -9,7 +13,13 @@ public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Title must be between 1 and 50 characters")
+    @Length(min = 1, max = 50)
     private String title;
+
+    @NotEmpty(message = "Content  must be betweent 1 and 2000")
+    @Length(min = 2, max = 2000)
     private String content;
     @ManyToOne
     @JoinColumn(name = "category_id")

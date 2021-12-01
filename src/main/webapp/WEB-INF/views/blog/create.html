@@ -13,10 +13,12 @@
   <fieldset>
     <legend>Create new Blog</legend>
     <input type="hidden" th:field="*{id}">
-    <label for="tittle">Tittle of Blog</label>
-    <input id="tittle" type="text" th:field="*{title}">
+    <label for="title">Tittle of Blog</label>
+    <input id="title" type="text" th:field="*{title}">
+    <span th:if="${#fields.hasErrors('title')}" th:errors = "*{title}"></span>
     <label for="content">Content</label>
     <textarea id="content" cols="100" rows="10" th:field="*{content}" placeholder="Write anything">this is content</textarea>
+    <span th:if="${#fields.hasErrors('content')}" th:errors = "*{content}"></span><br>
     <input type="hidden" th:field="*{datePost}"><br>
     <select name="category">
       <option th:each="c : ${categories}"

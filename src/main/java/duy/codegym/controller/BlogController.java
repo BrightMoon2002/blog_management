@@ -13,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +52,20 @@ public class BlogController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createNewBlog(@ModelAttribute("blog") Blog blog){
+    public ModelAndView createNewBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult bindingResult){
         ModelAndView model = new ModelAndView("/blog/create");
-        blog.setDatePost(LocalDate.now());
-        blogService.save(blog);
-        model.addObject("blog", new Blog());
-        model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
-        return model;
-    }
+        if (bindingResult.hasFieldErrors()) {
+            blog.setDatePost(LocalDate.now());
+            return model;
+        } else {
+            blog.setDatePost(LocalDate.now());
+            blogService.save(blog);
+            model.addObject("blog", new Blog());
+            model.addObject("message", "Congrat! you just create new blog successful. Go to HomePage to see it");
+            return model;
+        }
+        }
+
 
     @GetMapping("/delete")
     public ModelAndView showDeleteForm(@RequestParam("id") Blog blog) {
