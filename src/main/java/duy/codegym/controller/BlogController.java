@@ -39,6 +39,8 @@ public class BlogController {
     public Iterable<Category> categories(){
         return categoryService.findAll();
     }
+
+
     @GetMapping("")
     public ModelAndView showList(@PageableDefault(value = 3)Pageable pageable){
         ModelAndView model = new ModelAndView("/blog/list");
