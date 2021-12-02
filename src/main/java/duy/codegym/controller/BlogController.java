@@ -45,7 +45,7 @@ public class BlogController {
         model.addObject("blogList", blogService.findAllOrderByCategory(pageable));
         return model;
     }
-    @GetMapping("/create")
+    @GetMapping("/create*")
     public ModelAndView showCreateoForm(){
         ModelAndView model = new ModelAndView("/blog/create");
         model.addObject("blog", new Blog());
@@ -73,7 +73,7 @@ public class BlogController {
         }
 
 
-    @GetMapping("/delete")
+    @GetMapping("/delete*")
     public ModelAndView showDeleteForm(@RequestParam("id") Long id) {
             Optional<Blog> blog = blogService.findById(id);
             if (blog.isPresent()) {
@@ -100,7 +100,7 @@ public class BlogController {
 
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/edit*")
     public ModelAndView showEditForm(@RequestParam("id") Optional<Blog> blog) {
             if (blog.isPresent()){
                 ModelAndView model = new ModelAndView("/blog/edit");
