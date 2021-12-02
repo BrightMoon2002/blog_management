@@ -12,12 +12,12 @@ duy/codegym/repo/IBlogRepository.java
  duy.codegym.repo.IBlogRepository
 duy/codegym/service/category/ICategoryService.java
  duy.codegym.service.category.ICategoryService
-duy/codegym/config/AppConfig.java
- duy.codegym.config.AppConfig
-duy/codegym/aspect/BlogAspect.java
- duy.codegym.aspect.BlogAspect
 duy/codegym/handler/BlogExceptionHandler.java
  duy.codegym.handler.BlogExceptionHandler
+duy/codegym/service/category/CategoryService.java
+ duy.codegym.service.category.CategoryService
+duy/codegym/aspect/BlogAspect.java
+ duy.codegym.aspect.BlogAspect
 duy/codegym/service/blog/BlogService.java
  duy.codegym.service.blog.BlogService
 duy/codegym/formatter/CategoryFormatter.java
@@ -28,7 +28,7 @@ duy/codegym/controller/CategoryController.java
  duy.codegym.controller.CategoryController
 duy/codegym/formatter/BlogFormatter.java
  duy.codegym.formatter.BlogFormatter
-duy/codegym/service/category/CategoryService.java
- duy.codegym.service.category.CategoryService
+duy/codegym/config/AppConfig.java
+ duy.codegym.config.AppConfig
 duy/codegym/controller/BlogController.java
  duy.codegym.controller.BlogController

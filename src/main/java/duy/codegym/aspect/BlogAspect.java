@@ -21,6 +21,6 @@ public class BlogAspect {
     }
 
     //tạo 1 pointcut trỏ đến tất cả class trong controller thì dùng * hehe
-   @Pointcut(value = "within(duy.codegym.controller.*)")
+   @Pointcut(value = "within(duy.codegym.controller.BlogController)")
    public void exceuteController(){}
 }

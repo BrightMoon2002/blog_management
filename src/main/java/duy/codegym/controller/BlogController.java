@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @Controller
 @PropertySource("classpath:upload_file.properties")
-@RequestMapping("/blogs")
+@RequestMapping("/blogs*")
 public class BlogController {
     @Autowired
     private IBlogService blogService;
@@ -39,7 +39,7 @@ public class BlogController {
     public Iterable<Category> categories(){
         return categoryService.findAll();
     }
-    @GetMapping("/**")
+    @GetMapping("")
     public ModelAndView showList(@PageableDefault(value = 3)Pageable pageable){
         ModelAndView model = new ModelAndView("/blog/list");
         model.addObject("blogList", blogService.findAllOrderByCategory(pageable));
